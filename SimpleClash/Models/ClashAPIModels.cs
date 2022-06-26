@@ -16,7 +16,16 @@ namespace SimpleClash.Models
         public string Version { get; set; }
     }
 
-
+    /// <summary>
+    /// 单位Byte
+    /// </summary>
+    public class Traffic
+    {
+        [JsonProperty("up")]
+        public int Up { get; set; }
+        [JsonProperty("down")]
+        public int Down { get; set; }
+    }
 
     /// <summary>
     /// 单个代理信息
@@ -61,7 +70,7 @@ namespace SimpleClash.Models
 
     }
 
-    public class DelayInfo
+    public class Latency
     {
         [JsonProperty("delay")]
         public int Delay { get; set; }
@@ -77,5 +86,38 @@ namespace SimpleClash.Models
         /// </summary>
         [JsonProperty("delay")]
         public int Delay { get; set; }
+    }
+
+    public class ClashBaseConfig
+    {
+        [JsonProperty("port")]
+        public int Port { get; set; }
+
+        [JsonProperty("socks-port")]
+        public int SocksPort { get; set; }
+
+        [JsonProperty("redir-port")]
+        public int RedirPort { get; set; }
+
+        [JsonProperty("tproxy-port")]
+        public int TproxyPort { get; set; }
+
+        [JsonProperty("mixed-port")]
+        public int MixedPort { get; set; }
+
+        [JsonProperty("allow-lan")]
+        public bool AllowLan { get; set; }
+
+        [JsonProperty("bind-address")]
+        public string BindAddress { get; set; }
+
+        [JsonProperty("mode")]
+        public string Mode { get; set; }
+
+        [JsonProperty("log-level")]
+        public string LogLevel { get; set; }
+
+        [JsonProperty("ipv6")]
+        public bool IPv6 { get; set; }
     }
 }

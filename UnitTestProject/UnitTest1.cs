@@ -98,5 +98,81 @@ namespace UnitTestProject
             //    }
             //}
         }
+
+        [TestMethod]
+        public void HttpStreamTest()
+        {
+            var api = "/traffic";
+            var url = "http://localhost:8080/";
+            url = url.TrimEnd('/');
+
+
+            var request = WebRequest.Create($"{url}{api}");
+            request.Method = "GET";
+            //request.GetResponseAsync().GetAwaiter().GetResult();
+            using (var response = request.GetResponse() as HttpWebResponse)
+            {
+                var stream = response.GetResponseStream();
+                var bytes = new List<byte>();
+                int len = 0;
+                while (true)
+                {
+                    var b = stream.ReadByte();
+                    bytes.Add((byte)b);
+
+                    len = CheckLength(b);
+                    if(len == 1)
+                    {
+                        //decode
+                        //invoke
+                        continue;
+                    }
+                    else
+                    {
+                        while (len > 0)
+                        {
+                            var nb = stream.ReadByte();
+                            bytes.Add((byte)nb);
+                            len--;
+                        }
+                        //decode
+                        //invoke
+                    }
+
+                }
+            }
+        }
+
+        public static int CheckLength(int b)
+        {
+            if (b < 0x80)
+            {
+                return 1;//占一个字节
+            }
+            else if (b < 0xc2)
+            {
+            }
+            else if (b < 0xe0)
+            {
+                return 2;//占2个字节
+            }
+            else if (b < 0xf0)
+            {
+                return 3;
+            }
+            else if (b < 0xf8)
+            {
+                return 4;
+            }
+            else if (b < 0xfc)
+            {
+                return 5;
+            }
+            else if (b < 0xfe)
+            {
+                return 6;
+            }
+            return -1;
+        }
     }
 }
