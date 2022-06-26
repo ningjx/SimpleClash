@@ -45,5 +45,11 @@ namespace SimpleClash.API.Tests
         {
             var res = ClashAPI.GetCurrentConfig();
         }
+
+        [TestMethod()]
+        public void GetVersionTest()
+        {
+            var RES = ClashAPI.GetVersion();
+        }
     }
 }

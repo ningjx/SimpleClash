@@ -1,18 +1,12 @@
 ﻿using SimpleClash.Helpers;
 using SimpleClash.Models;
 using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SimpleClash.API
 {
     internal static class ClashBaseAPI
     {
-        private static string Url = "http://localhost:8080";
+        private const string Url = "http://localhost:8909/";
 
         /// <summary>
         /// 获取Clash版本
@@ -91,13 +85,24 @@ namespace SimpleClash.API
         }
 
         /// <summary>
-        /// 修改配置
+        /// 增量修改配置
         /// </summary>
         /// <param name="config"></param>
         /// <returns></returns>
         internal static Result<string> SetConfig(string config)
         {
             return HttpHelper.Patch(Url, "configs", config);
+        }
+
+        /// <summary>
+        /// 重载配置
+        /// </summary>
+        /// <param name="overridePorts"></param>
+        /// <param name="filePath"></param>
+        /// <returns></returns>
+        internal static Result<string> ReloadConfig(bool overridePorts, string filePath)
+        {
+            return HttpHelper.Put(Url, "configs", $"?force={overridePorts}", $"{{\"path\":\"{filePath}\"}}");
         }
     }
 }

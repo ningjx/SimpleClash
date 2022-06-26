@@ -16,7 +16,6 @@ namespace SimpleClash.Helpers
     {
         public static Result<string> Get(string url, string api)
         {
-            url = "http://localhost:8080/";
             url = url.TrimEnd('/');
 
             var request = WebRequest.Create($"{url}/{api}");
@@ -41,10 +40,29 @@ namespace SimpleClash.Helpers
             }
         }
 
+        public static Result<Stream> GetStream(string url)
+        {
+            url = url.TrimEnd('/');
+
+            var request = WebRequest.Create(url);
+            request.Method = "GET";
+
+            using (var response = request.GetResponse() as HttpWebResponse)
+            {
+                //if (resp.StatusCode != HttpStatusCode.OK)
+                //    return Result<string>.Error();
+
+                return new Result<Stream>
+                {
+                    Code = response.StatusCode,
+                    Message = "",
+                    Data = response.GetResponseStream()
+                };
+            }
+        }
+
         public static Result<string> Get(string url, string api, string query)
         {
-            url = "http://localhost:8080/";
-
             url = url.TrimEnd('/');
 
             var request = WebRequest.Create($"{url}/{api}/{query}");
@@ -71,7 +89,6 @@ namespace SimpleClash.Helpers
 
         public static async void Get_Async(string url, string api, Action<string> action)
         {
-            url = "http://localhost:8080/";
             url = url.TrimEnd('/');
 
             await Task.Run(() =>
@@ -111,8 +128,6 @@ namespace SimpleClash.Helpers
 
         public static Result<string> Put(string url, string api, string query, string body)
         {
-            url = "http://localhost:8080/";
-
             url = url.TrimEnd('/');
 
             var bytes = Encoding.UTF8.GetBytes(body);
@@ -145,8 +160,6 @@ namespace SimpleClash.Helpers
 
         public static Result<string> Patch(string url, string api, string body)
         {
-            url = "http://localhost:8080/";
-
             url = url.TrimEnd('/');
 
             var bytes = Encoding.UTF8.GetBytes(body);

@@ -13,6 +13,7 @@ using Newtonsoft.Json.Converters;
 using System.Xml;
 using System.Collections.Generic;
 using SimpleClash.Models;
+using SimpleClash;
 
 namespace UnitTestProject
 {
@@ -173,6 +174,20 @@ namespace UnitTestProject
                 return 6;
             }
             return -1;
+        }
+
+        [TestMethod]
+        public void FileTest()
+        {
+            int code1 = File.ReadAllBytes(@"D:\1.xml").GetHashCode();
+            int code2 = File.ReadAllBytes(@"D:\2.xml").GetHashCode();
+        }
+
+        [TestMethod]
+        public void JsonTest()
+        {
+            AppConfig.LoadConfig();
+            var test = JsonConvert.SerializeObject(AppConfig.Instance);
         }
     }
 }
